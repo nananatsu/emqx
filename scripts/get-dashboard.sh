@@ -36,13 +36,13 @@ if [ -d "$DASHBOARD_PATH/www" ] && [ "$(version)" = "$VERSION" ]; then
     exit 0
 fi
 
-echo "Downloading dashboard from: $DIRECT_DOWNLOAD_URL"
-curl -L --silent --show-error \
-     --header "Accept: application/octet-stream" \
-     --output "${RELEASE_ASSET_FILE}" \
-     "$DIRECT_DOWNLOAD_URL"
+# echo "Downloading dashboard from: $DIRECT_DOWNLOAD_URL"
+# curl -L --silent --show-error \
+#      --header "Accept: application/octet-stream" \
+#      --output "${RELEASE_ASSET_FILE}" \
+#      "$DIRECT_DOWNLOAD_URL"
 
-unzip -o -q "$RELEASE_ASSET_FILE" -d "$DASHBOARD_PATH"
-rm -rf "$DASHBOARD_PATH/www"
-mv "$DASHBOARD_PATH/dist" "$DASHBOARD_PATH/www"
-rm -f "$RELEASE_ASSET_FILE"
+# unzip -o -q "$RELEASE_ASSET_FILE" -d "$DASHBOARD_PATH"
+# rm -rf "$DASHBOARD_PATH/www"
+# mv "$DASHBOARD_PATH/dist" "$DASHBOARD_PATH/www"
+# rm -f "$RELEASE_ASSET_FILE"

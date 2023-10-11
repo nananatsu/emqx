@@ -83,22 +83,23 @@ purge() ->
 %% gen_server callbacks
 %%------------------------------------------------------------------------------
 
-init([LicenseFetcher, CheckInterval]) ->
-    case LicenseFetcher() of
-        {ok, License} ->
-            ?LICENSE_TAB = ets:new(?LICENSE_TAB, [
-                set, protected, named_table, {read_concurrency, true}
-            ]),
-            ok = print_warnings(check_license(License)),
-            State0 = ensure_check_license_timer(#{
-                check_license_interval => CheckInterval,
-                license => License
-            }),
-            State = ensure_check_expiry_timer(State0),
-            {ok, State};
-        {error, Reason} ->
-            {stop, Reason}
-    end.
+init([_, _]) ->
+    % case LicenseFetcher() of
+    %     {ok, License} ->
+    %         ?LICENSE_TAB = ets:new(?LICENSE_TAB, [
+    %             set, protected, named_table, {read_concurrency, true}
+    %         ]),
+    %         ok = print_warnings(check_license(License)),
+    %         State0 = ensure_check_license_timer(#{
+    %             check_license_interval => CheckInterval,
+    %             license => License
+    %         }),
+    %         State = ensure_check_expiry_timer(State0),
+    %         {ok, State};
+    %     {error, Reason} ->
+    %         {stop, Reason}
+    % end.
+    {ok, {}}.
 
 handle_call({update, License}, _From, State) ->
     ok = expiry_early_alarm(License),

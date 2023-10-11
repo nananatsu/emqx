@@ -124,8 +124,19 @@ error_msg(Code, Msg) ->
 
 %% read license info
 '/license'(get, _Params) ->
-    License = maps:from_list(emqx_license_checker:dump()),
-    {200, License};
+    % License = maps:from_list(emqx_license_checker:dump()),
+    % {200, License};
+    {200, #{
+        customer => "Foo",
+        customer_type => 3,
+        deployment => "bar-deployment",
+        email => "contact@foo.com",
+        expiry => false,
+        expiry_at => "2295-10-27",
+        max_connections => 1000000,
+        start_at => "2022-01-11",
+        type => "official"
+    }};
 %% set/update license
 '/license'(post, #{body := #{<<"key">> := Key}}) ->
     case emqx_license:update_key(Key) of

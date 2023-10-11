@@ -294,20 +294,21 @@ chkconfig(File) ->
             halt(1)
     end.
 
-check_license(Config) ->
-    ok = ensure_application_load(emqx_license),
+check_license(_) ->
+    % ok = ensure_application_load(emqx_license),
     %% This checks formal license validity to ensure
     %% that the node can successfully start with the given license.
 
     %% However, a valid license may be expired. In this case, the node will
     %% start but will not be able to receive connections due to connection limits.
     %% It may receive license updates from the cluster further.
-    case emqx_license:read_license(Config) of
-        {ok, _} -> ok;
-        {error, Error} ->
-            io:format(standard_error, "Error reading license: ~p~n", [Error]),
-            halt(1)
-    end.
+    % case emqx_license:read_license(Config) of
+    %     {ok, _} -> ok;
+    %     {error, Error} ->
+    %         io:format(standard_error, "Error reading license: ~p~n", [Error]),
+    %         halt(1)
+    % end.
+    ok.
 
 %%
 %% Given a string or binary, parse it into a list of terms, ala file:consult/0

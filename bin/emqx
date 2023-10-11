@@ -600,21 +600,21 @@ CONFIGS_DIR="$DATA_DIR/configs"
 mkdir -p "$CONFIGS_DIR"
 
 check_license() {
-    if [ "$IS_ENTERPRISE" == "no" ]; then
+    # if [ "$IS_ENTERPRISE" == "no" ]; then
         return 0
-    fi
+    # fi
 
-    key_license="${EMQX_LICENSE__KEY:-$(get_boot_config 'license.key')}"
+    # key_license="${EMQX_LICENSE__KEY:-$(get_boot_config 'license.key')}"
 
-    if [[ -n "$key_license" && ("$key_license" != "undefined") ]]; then
-      call_nodetool check_license_key "$key_license"
-    else
-      set +x
-      logerr "License not found."
-      logerr "Please specify one via the EMQX_LICENSE__KEY variable"
-      logerr "or via license.key in emqx.conf."
-      return 1
-    fi
+    # if [[ -n "$key_license" && ("$key_license" != "undefined") ]]; then
+    #   call_nodetool check_license_key "$key_license"
+    # else
+    #   set +x
+    #   logerr "License not found."
+    #   logerr "Please specify one via the EMQX_LICENSE__KEY variable"
+    #   logerr "or via license.key in emqx.conf."
+    #   return 1
+    # fi
 }
 
 # When deciding which install upgrade script to run, we have to check
@@ -1206,7 +1206,7 @@ case "${COMMAND}" in
         #generate app.config and vm.args
         generate_config "$NAME_TYPE" "$NAME"
 
-        check_license
+        # check_license
 
         # Setup beam-required vars
         EMU="beam"

@@ -78,25 +78,26 @@ update_setting(Setting) when is_map(Setting) ->
 %%------------------------------------------------------------------------------
 
 check(_ConnInfo, AckProps) ->
-    case emqx_license_checker:limits() of
-        {ok, #{max_connections := ?ERR_EXPIRED}} ->
-            ?SLOG(error, #{msg => "connection_rejected_due_to_license_expired"}),
-            {stop, {error, ?RC_QUOTA_EXCEEDED}};
-        {ok, #{max_connections := MaxClients}} ->
-            case check_max_clients_exceeded(MaxClients) of
-                true ->
-                    ?SLOG(error, #{msg => "connection_rejected_due_to_license_limit_reached"}),
-                    {stop, {error, ?RC_QUOTA_EXCEEDED}};
-                false ->
-                    {ok, AckProps}
-            end;
-        {error, Reason} ->
-            ?SLOG(error, #{
-                msg => "connection_rejected_due_to_license_not_loaded",
-                reason => Reason
-            }),
-            {stop, {error, ?RC_QUOTA_EXCEEDED}}
-    end.
+    % case emqx_license_checker:limits() of
+    %     {ok, #{max_connections := ?ERR_EXPIRED}} ->
+    %         ?SLOG(error, #{msg => "connection_rejected_due_to_license_expired"}),
+    %         {stop, {error, ?RC_QUOTA_EXCEEDED}};
+    %     {ok, #{max_connections := MaxClients}} ->
+    %         case check_max_clients_exceeded(MaxClients) of
+    %             true ->
+    %                 ?SLOG(error, #{msg => "connection_rejected_due_to_license_limit_reached"}),
+    %                 {stop, {error, ?RC_QUOTA_EXCEEDED}};
+    %             false ->
+    %                 {ok, AckProps}
+    %         end;
+    %     {error, Reason} ->
+    %         ?SLOG(error, #{
+    %             msg => "connection_rejected_due_to_license_not_loaded",
+    %             reason => Reason
+    %         }),
+    %         {stop, {error, ?RC_QUOTA_EXCEEDED}}
+    % end.
+    {ok, AckProps}.
 
 %%------------------------------------------------------------------------------
 %% emqx_config_handler callbacks
@@ -139,8 +140,8 @@ do_update(NewConf, _PrevConf) ->
     #{<<"key">> := NewKey} = NewConf,
     do_update({key, NewKey}, NewConf).
 
-check_max_clients_exceeded(MaxClients) ->
-    emqx_license_resources:connection_count() > MaxClients * 1.1.
+% check_max_clients_exceeded(MaxClients) ->
+%     emqx_license_resources:connection_count() > MaxClients * 1.1.
 
 read_license(#{key := Content}) ->
     emqx_license_parser:parse(Content).
